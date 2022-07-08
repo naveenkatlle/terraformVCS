@@ -1,6 +1,12 @@
+
+
+provider "aws" {
+  region = "us-east-1"    
+}
+
 variable "image" {
   type = string
-  default = "ami-02f3416038bdb17fb"
+  default = "ami-052efd3df9dad4825"
 }
 
 variable "hw" {
@@ -8,45 +14,39 @@ variable "hw" {
 }
 
 variable "name" {
-  default = "gagan-manual-tf"
+  default = "naveen-manual-tf"
 }
 
 variable "env" {
   default = "prod"
 }
 
-variable "bucket-name" {
-  default = "gagandefaultbucket"
-}
+/*variable "bucket-name" {
+    default = "naveen-default-bucket-name"
+}*/
 
 resource "aws_instance" "myawsserver" {
   ami = var.image
   instance_type = var.hw
-  key_name = "gagan-new"
+#   key_name = "gagan-new"
   tags = {
     Name = lower (var.name)
-    env = upper (var.env)
-    owner = upper ("Gagandeep")
-    dept = "eng"
-    client = "jpmc"
+    ENV = upper (var.env)
+    owner = upper ("Naveen")
   }
 }
 
-resource "aws_s3_bucket" "bucket" {
+/*resource "aws_s3_bucket" "bucket" {
   bucket = var.bucket-name
-
   tags = {
-    Name        = var.bucket-name
-    Environment = var.env
-    owner = "Gagandeep"
-    
+    Name = var.bucket-name
   }
-}
+}*/
 
-output "public-ip" {
+output "myawsserver-ip" {
   value = aws_instance.myawsserver.public_ip
 }
 
-output "private-ip" {
+output "myserver-PrivateIP" {
   value = aws_instance.myawsserver.private_ip
 }
